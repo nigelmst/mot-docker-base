@@ -1,5 +1,9 @@
 FROM php:7.4-fpm-alpine
 
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.10/main" >> /etc/apk/repositories
+ARG CHROMIUM_DEPENDENCIES="freetype harfbuzz"
+RUN apk add --update --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/v3.10/main chromium $CHROMIUM_DEPENDENCIES
+
 # Install system dependencies
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories
 ARG APK_COMMON_DEPENDENCIES="bash busybox-suid curl dcron git libcap mysql-client ttf-freefont unzip zip"
