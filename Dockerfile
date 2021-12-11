@@ -1,18 +1,14 @@
 FROM php:7.4-fpm-alpine
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.10/main" >> /etc/apk/repositories
-ARG CHROMIUM_DEPENDENCIES="freetype harfbuzz"
-RUN apk add --update --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/v3.10/main chromium $CHROMIUM_DEPENDENCIES
-
 # Install system dependencies
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories
-ARG APK_COMMON_DEPENDENCIES="bash busybox-suid curl dcron git libcap mysql-client ttf-freefont unzip zip"
-ARG FONTS="fontconfig ttf-dejavu ttf-droid ttf-liberation ttf-ubuntu-font-family"
+ARG APK_COMMON_DEPENDENCIES="bash busybox-suid curl dcron git libcap mysql-client unzip zip"
+ARG FONTS="fontconfig ttf-dejavu"
 RUN apk add --update --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/latest-stable/main $APK_COMMON_DEPENDENCIES $FONTS
 
 # Install PHP extensions
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
-ARG PHP_EXTENSIONS="bcmath exif gd gmp imagick intl opcache pdo_mysql pdo_sqlite"
+ARG PHP_EXTENSIONS="bcmath exif gd imagick intl opcache pcntl pdo_mysql pdo_sqlite zip"
 RUN install-php-extensions $PHP_EXTENSIONS
 
 # Install supervisord
