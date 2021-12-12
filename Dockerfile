@@ -19,7 +19,7 @@ COPY --from=caddy:2.4.6 /usr/bin/caddy /usr/local/bin/caddy
 RUN setcap 'cap_net_bind_service=+ep' /usr/local/bin/caddy
 
 # Install composer 2
-COPY --from=composer:2.1.12 /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:2.1.14 /usr/bin/composer /usr/local/bin/composer
 
 # Install wkhtml
 COPY --from=ghcr.io/surnet/alpine-wkhtmltopdf:3.10-0.12.6-full /bin/wkhtmltopdf /usr/local/bin/wkhtmltopdf
