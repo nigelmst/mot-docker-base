@@ -1,14 +1,25 @@
 FROM ghcr.io/mpyw/php-eol-cve-2026-109618-109619:7.4-fpm-alpine
 
 # Install system dependencies
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories
+# RUN echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories
+# ARG APK_COMMON_DEPENDENCIES="bash busybox-suid curl dcron git libcap mysql-client unzip zip"
+# ARG FONTS="fontconfig ttf-dejavu"
+# RUN apk add --update --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/latest-stable/main $APK_COMMON_DEPENDENCIES $FONTS
+
+# Install system dependencies from the same Alpine release as PHP
+RUN printf '%s\n' \
+    'https://archive.alpinelinux.org/alpine/v3.16/main' \
+    'https://archive.alpinelinux.org/alpine/v3.16/community' \
+    > /etc/apk/repositories
+
 ARG APK_COMMON_DEPENDENCIES="bash busybox-suid curl dcron git libcap mysql-client unzip zip"
 ARG FONTS="fontconfig ttf-dejavu"
-RUN apk add --update --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/latest-stable/main $APK_COMMON_DEPENDENCIES $FONTS
+
+RUN apk add --no-cache $APK_COMMON_DEPENDENCIES $FONTS
 
 # Install PHP extensions
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
-ARG PHP_EXTENSIONS="bcmath exif imagick intl opcache pcntl pdo_mysql pdo_sqlite zip"
+ARG PHP_EXTENSIONS="bcmath exif gd imagick intl opcache pcntl pdo_mysql pdo_sqlite zip"
 RUN install-php-extensions $PHP_EXTENSIONS
 
 # Install supervisord
