@@ -11,7 +11,10 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 #ARG PHP_EXTENSIONS="bcmath exif gd imagick intl opcache pcntl pdo_mysql pdo_sqlite zip"
 #RUN install-php-extensions $PHP_EXTENSIONS
 
-RUN install-php-extensions bcmath exif gd
+RUN set -eux; \
+    cat /etc/alpine-release; \
+    cat /etc/apk/repositories; \
+    install-php-extensions bcmath exif gd
 RUN install-php-extensions imagick
 RUN install-php-extensions intl opcache pcntl
 RUN install-php-extensions pdo_mysql pdo_sqlite zip
