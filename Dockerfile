@@ -1,4 +1,4 @@
-FROM php:7.4-fpm-alpine
+FROM ghcr.io/mpyw/php-eol-cve-2026-109618-109619:7.4-fpm-alpine
 
 # Install system dependencies
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories
