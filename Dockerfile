@@ -8,16 +8,8 @@ RUN apk add --update --no-cache --repository=http://dl-cdn.alpinelinux.org/alpin
 
 # Install PHP extensions
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
-#ARG PHP_EXTENSIONS="bcmath exif gd imagick intl opcache pcntl pdo_mysql pdo_sqlite zip"
-#RUN install-php-extensions $PHP_EXTENSIONS
-
-RUN set -eux; \
-    cat /etc/alpine-release; \
-    cat /etc/apk/repositories; \
-    install-php-extensions bcmath exif gd
-RUN install-php-extensions imagick
-RUN install-php-extensions intl opcache pcntl
-RUN install-php-extensions pdo_mysql pdo_sqlite zip
+ARG PHP_EXTENSIONS="bcmath exif imagick intl opcache pcntl pdo_mysql pdo_sqlite zip"
+RUN install-php-extensions $PHP_EXTENSIONS
 
 # Install supervisord
 COPY --from=ghcr.io/jbs-fm/supervisord:0.7.31 /usr/local/bin/supervisord /usr/local/bin/supervisord
