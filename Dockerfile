@@ -8,8 +8,8 @@ FROM ghcr.io/mpyw/php-eol-cve-2026-109618-109619:7.4-fpm-alpine
 
 # Install system dependencies from the same Alpine release as PHP
 RUN printf '%s\n' \
-    'https://archive.alpinelinux.org/alpine/v3.16/main' \
-    'https://archive.alpinelinux.org/alpine/v3.16/community' \
+    'https://dl-cdn.alpinelinux.org/alpine/v3.16/main' \
+    'https://dl-cdn.alpinelinux.org/alpine/v3.16/community' \
     > /etc/apk/repositories
 
 ARG APK_COMMON_DEPENDENCIES="bash busybox-suid curl dcron git libcap mysql-client unzip zip"
